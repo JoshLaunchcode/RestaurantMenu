@@ -1,18 +1,28 @@
 package org.launchcode.java.restaurantmenu;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class MenuItem {
+    private static int itemIdCounter = 1;
+    private int itemId = incrementItemId();
     private double price;
     private String name;
     private String description;
-    private Date dateAdded = new Date();
+    private final static float dateAdded = System.currentTimeMillis();
 
     public MenuItem(double price, String name, String description) {
         this.price = price;
         this.name = name;
         this.description = description;
-        this.dateAdded = new Date();
+    }
+
+    private int incrementItemId(){
+        itemIdCounter++;
+        return itemIdCounter;
     }
 
     public double getPrice(){
@@ -27,9 +37,7 @@ public class MenuItem {
         return description;
     }
 
-    public Date getDateAdded(){
-        return dateAdded;
-    }
+    public Float getDateAdded(){ return dateAdded; }
 
     public void setPrice(double price){
         this.price = price;
@@ -43,4 +51,21 @@ public class MenuItem {
         this.name = description;
     }
 
+    @Override
+    public String toString(){
+        return "\n******\nName: " + name + "\nPrice: " + price + "\nDescription: " + description + "\n******\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuItem menuItem = (MenuItem) o;
+        return name == menuItem.name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
 }

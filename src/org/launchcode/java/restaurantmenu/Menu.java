@@ -3,43 +3,72 @@ package org.launchcode.java.restaurantmenu;
 import java.util.*;
 
 public class Menu {
-    private HashMap<String, ArrayList<MenuItem>> menuList = new HashMap<String, ArrayList<MenuItem>>();
+    private ArrayList<MenuItem> menuList = new ArrayList<MenuItem>();
     private String menuType;
-    private Date dateUpdated;
+    private static float dateUpdated = System.currentTimeMillis();
 
-    public Menu(ArrayList<MenuItem> appetizer, ArrayList<MenuItem> mainCourse, ArrayList<MenuItem> dessert, String menuType){
-        this.menuList.put("Appetizer", appetizer);
-        this.menuList.put("Main Course", mainCourse);
-        this.menuList.put("Dessert", dessert);
+    public Menu(ArrayList<MenuItem> menu, String menuType){
+        this.menuList = menu;
         this.menuType = menuType;
-        this.dateUpdated = new Date();
     }
 
-    public HashMap<String, ArrayList<MenuItem>> getMenuList(){
+    public ArrayList<MenuItem> getMenuList(){
         return menuList;
-    }
-
-    public ArrayList<MenuItem> getAppetizers(){
-        return menuList.get("Appetizer");
-    }
-
-    public ArrayList<MenuItem> getMainCourse(){
-        return menuList.get("Main Course");
-    }
-
-    public ArrayList<MenuItem> getDessert(){
-        return menuList.get("Dessert");
     }
 
     public String getMenuType(){
         return menuType;
     }
 
-    public void setMenuList(ArrayList<MenuItem> appetizer, ArrayList<MenuItem> mainCourse, ArrayList<MenuItem> dessert){
-        this.menuList.put("Appetizer", appetizer);
-        this.menuList.put("Main Course", mainCourse);
-        this.menuList.put("Dessert", dessert);
-        this.dateUpdated = new Date();
+    public void setMenuList(ArrayList<MenuItem> menuList){
+        this.menuList = menuList;
+    }
+
+    public String findAndPrintItem(String searchQuery){
+        String itemToReturn = "";
+        for(MenuItem item : menuList) {
+            if (item.getName().equals(searchQuery)) {
+                itemToReturn = item.toString();
+            }
+        }
+        return itemToReturn;
+    }
+
+    public void findAndDeleteItem(String searchQuery){
+
+        for(int i = 0; i < menuList.size(); i++){
+            if(menuList.get(i).getName().equals(searchQuery)) {
+                menuList.remove(i);
+            }
+        }
+    }
+
+    public void addNewMenuItem(MenuItem newItem){
+        String alreadyExists = "";
+
+        for (MenuItem item : menuList) {
+            if (item.equals(newItem)) {
+                alreadyExists = newItem.getName() + " Already Exists, Try again!";
+            }
+        }
+
+        if(!menuList.contains(newItem)){
+            menuList.add(newItem);
+        } else {
+            alreadyExists = newItem.getName() + " Already Exists, Try again!";
+        }
+
+        System.out.println(alreadyExists);
+
+    }
+
+    @Override
+    public String toString(){
+        String builder = "";
+        for(MenuItem item : menuList){
+            builder += item.toString();
+        }
+        return builder;
     }
 
 }
